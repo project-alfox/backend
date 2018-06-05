@@ -19,6 +19,14 @@
     },
     body: JSON.stringify({"direction":"north"})
   })
+  // should return 200
+  { "message":["traveled north"],
+    "character":{
+      "name":"Jimmy Fred",
+      "hp":100,
+      "location":[0,1]
+    },
+    "ok":true  }
   ```
   
 #### Adding New Actions
