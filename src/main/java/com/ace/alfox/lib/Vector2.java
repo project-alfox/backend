@@ -1,8 +1,16 @@
 package com.ace.alfox.lib;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.Vector;
 
 public class Vector2 extends Vector<Integer> {
+    public Vector2() {
+        super();
+    }
+    public Vector2(int[] array) {
+        this(array[0], array[1]);
+    }
     public Vector2(int x, int y) {
         super(2, 0);
         add(x);

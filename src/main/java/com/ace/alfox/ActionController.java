@@ -16,10 +16,11 @@ import java.util.Map;
 @RestController
 class ActionController {
 
+    @CrossOrigin(origins = "*")
     @RequestMapping(value = "/perform/{command}", method = { RequestMethod.GET, RequestMethod.POST })
     public ResponseEntity home(HttpServletRequest request, @PathVariable String command, @RequestBody Map<String, Object> params) throws IOException {
         HttpSession session = request.getSession(true);
-        String characterId = (String) session.getAttribute("cid");
+        String characterId = "1234";//String) session.getAttribute("cid");
 
         if(characterId == null) return ResponseEntity.notFound().build();
         if(params == null) return ResponseEntity.notFound().build();
@@ -29,6 +30,7 @@ class ActionController {
         Action doSomething = Action.named(command).withParameters(params);
         Result result = player.applyAction(doSomething);
         CharacterFactory.save(result.character);
+
         return ResponseEntity.ok(result);
     }
 }

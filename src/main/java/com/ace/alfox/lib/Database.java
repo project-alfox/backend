@@ -1,11 +1,16 @@
 package com.ace.alfox.lib;
 
+import com.ace.alfox.game.GameCharacter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.Options;
 import static org.fusesource.leveldbjni.JniDBFactory.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+
+import static org.fusesource.leveldbjni.JniDBFactory.bytes;
 
 public class Database {
     private static HashMap<Keys, DB> instance = new HashMap<>();
@@ -19,8 +24,8 @@ public class Database {
         Options options = new Options();
         options.createIfMissing(true);
         DB db = factory.open(new File(name.toString()), options);
-        db.put(bytes("test"), bytes("from the database"));
         Database.instance.put(name, db);
+
         return db;
     }
 
