@@ -10,12 +10,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.http.MediaType;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.WebRequestInterceptor;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.io.IOException;
 
@@ -43,7 +41,7 @@ public class AlfoxApplication implements WebMvcConfigurer {
 	}
 
 	public void addCorsMappings(CorsRegistry registry) {
-	    registry.addMapping("/").allowedOrigins("*");
+	    registry.addMapping("/**");
 	}
 
 	public static void main(String[] args) {
