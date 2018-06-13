@@ -35,9 +35,9 @@
 ```java
 package com.ace.alfox.game;
 
-import com.ace.alfox.lib.IAction;
+import com.ace.alfox.game.interfaces.IAction;
 import com.ace.alfox.lib.PlayerAction;
-import com.ace.alfox.lib.Result;
+import com.ace.alfox.lib.ActionWebResult;
 
 import java.util.Map;
 

@@ -17,7 +17,15 @@ public class Vector2 extends Vector<Integer> {
         add(y);
     }
 
-    public Vector2 mathAdd (Vector2 vector) {
+    public Vector2 add(Vector2 vector) {
         return new Vector2(get(0) + vector.get(0), get(1) + vector.get(1));
+    }
+
+    public int x() {
+        return this.get(0);
+    }
+
+    public int y() {
+        return this.get(1);
     }
 }
