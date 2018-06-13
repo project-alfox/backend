@@ -1,6 +1,7 @@
 package com.ace.alfox;
 
 import com.ace.alfox.lib.ActionDatabase;
+import com.ace.alfox.lib.Database;
 import com.ace.alfox.lib.IAction;
 import com.ace.alfox.lib.PlayerAction;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -9,18 +10,21 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.http.MediaType;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.WebRequestInterceptor;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
+
+import java.io.IOException;
 
 @EnableWebMvc
 @SpringBootApplication
 @EnableAutoConfiguration
 public class AlfoxApplication implements WebMvcConfigurer {
 
-	public AlfoxApplication() {
+	public AlfoxApplication() throws IOException {
+		Database.get(Database.Keys.Character);
+
 		try {
 			ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(true);
 			scanner.addIncludeFilter(new AnnotationTypeFilter(PlayerAction.class));
@@ -36,12 +40,11 @@ public class AlfoxApplication implements WebMvcConfigurer {
 		}
 	}
 
+	public void addCorsMappings(CorsRegistry registry) {
+	    registry.addMapping("/**");
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(AlfoxApplication.class, args);
 	}
-//
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addWebRequestInterceptor(Session);
-//	}
 }

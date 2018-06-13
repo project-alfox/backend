@@ -4,8 +4,6 @@ import com.ace.alfox.lib.Action;
 import com.ace.alfox.lib.Result;
 import com.ace.alfox.lib.Vector2;
 
-import java.util.Vector;
-
 public class GameCharacter {
     public String name = "Jimmy Fred";
     public int hp = 100;

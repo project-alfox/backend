@@ -21,14 +21,15 @@ class ActionController {
         HttpSession session = request.getSession(true);
         String characterId = (String) session.getAttribute("cid");
 
-        if(characterId == null) return ResponseEntity.notFound().build();
-        if(params == null) return ResponseEntity.notFound().build();
-
-
         GameCharacter player = CharacterFactory.fetch(characterId);
+        if(player == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         Action doSomething = Action.named(command).withParameters(params);
         Result result = player.applyAction(doSomething);
         CharacterFactory.save(result.character);
+
         return ResponseEntity.ok(result);
     }
 }
