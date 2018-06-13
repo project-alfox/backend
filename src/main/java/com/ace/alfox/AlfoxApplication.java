@@ -20,8 +20,6 @@ import java.io.IOException;
 public class AlfoxApplication implements WebMvcConfigurer {
 
 	public AlfoxApplication() throws IOException {
-		Database.get(Database.Keys.Game);
-
 		try {
 			ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(true);
 			scanner.addIncludeFilter(new AnnotationTypeFilter(PlayerAction.class));
