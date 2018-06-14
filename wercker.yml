@@ -1,0 +1,12 @@
+box: node
+staging:
+  steps:
+    - add-to-known_hosts:
+        hostname: $SERVER_HOSTNAME
+    - add-ssh-key:
+        keyname: alfox
+    - script:
+        name: Deploy to Staging
+        code: |
+          git remote add dokku dokku@$SERVER_HOSTNAME:master
+          git push -f dokku master
