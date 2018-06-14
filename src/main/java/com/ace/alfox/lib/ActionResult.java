@@ -5,22 +5,22 @@ import com.ace.alfox.game.models.Player;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ActionWebResult {
+public class ActionResult {
     public List<String> message = new LinkedList<>();
-    public Player character = null;
+    public Player player = null;
     public boolean ok = true;
 
-    public ActionWebResult(Player character) {
-        this.character = character;
+    public ActionResult(Player player) {
+        this.player = player;
     }
 
     // TODO: make proper immutable
-    public ActionWebResult log(String s) {
+    public ActionResult log(String s) {
         message.add(s);
         return this;
     }
 
-    public ActionWebResult notOk() {
+    public ActionResult notOk() {
         ok = false;
         return this;
     }

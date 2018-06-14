@@ -2,7 +2,7 @@ package com.ace.alfox.game;
 
 import com.ace.alfox.game.interfaces.IAction;
 import com.ace.alfox.game.models.Player;
-import com.ace.alfox.lib.ActionWebResult;
+import com.ace.alfox.lib.ActionResult;
 import com.ace.alfox.lib.PlayerAction;
 import com.ace.alfox.lib.Vector2;
 
@@ -21,14 +21,14 @@ public class MoveAction implements IAction {
     public MoveAction() {}
 
     @Override
-    public ActionWebResult applyAction(Player player, Map<String, Object> params) {
-        ActionWebResult result = new ActionWebResult(player);
+    public ActionResult applyAction(Player player, Map<String, Object> params) {
+        ActionResult result = new ActionResult(player);
         String direction = (String) params.get("direction");
 
         if(player.hp == 0)
             return result.notOk().log("You're dead.");
         if(direction == null || !directions.containsKey(direction))
-            return result.notOk().log("Unknown direction"); // notice .log returns `ActionWebResult`
+            return result.notOk().log("Unknown direction"); // notice .log returns `ActionResult`
 
         // player.attacking.clear() // if they were attacking anyone, they aren't anymore
                                     // maybe do running away mechanic here?

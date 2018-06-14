@@ -8,7 +8,7 @@
 - To serve the frontend, set output directory to `src/main/resources/static`
 - the "API" if you can call it that
   - `GET or POST /login?user=SomeUser`<br>
-    This sets the session id to load allow loading a character. Required.
+    This sets the session id to load allow loading a player. Required.
   - `POST /perform/<action>` for example,<br>
   ```javascript
   fetch("http://localhost:8080/perform/move", {
@@ -21,7 +21,7 @@
   })
   // should return 200
   { "message":["traveled north"],
-    "character":{
+    "player":{
       "name":"Jimmy Fred",
       "hp":100,
       "location":[0,1]
@@ -37,7 +37,7 @@ package com.ace.alfox.game;
 
 import com.ace.alfox.game.interfaces.IAction;
 import com.ace.alfox.lib.PlayerAction;
-import com.ace.alfox.lib.ActionWebResult;
+import com.ace.alfox.lib.ActionResult;
 
 import java.util.Map;
 
