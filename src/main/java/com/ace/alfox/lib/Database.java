@@ -3,6 +3,11 @@ package com.ace.alfox.lib;
 import com.ace.alfox.game.interfaces.IAction;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.Options;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.stereotype.Service;
+
 import static org.fusesource.leveldbjni.JniDBFactory.*;
 
 import java.io.File;
@@ -18,6 +23,18 @@ public class Database {
     private static DB instance;
 
     private Database() {}
+
+    public static void findActions(String namespace) throws ClassNotFoundException {
+        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(true);
+        scanner.addIncludeFilter(new AnnotationTypeFilter(PlayerAction.class));
+        for (BeanDefinition bd : scanner.findCandidateComponents(namespace)) {
+            // use my annotation to get simple name
+            String alias = Class.forName(bd.getBeanClassName()).getAnnotation(PlayerAction.class).alias();
+            System.out.println(alias);
+            Class cl = Class.forName(bd.getBeanClassName());
+            Database.actions.put(alias, cl);
+        }
+    }
 
     public synchronized static DB get() throws IOException {
         if(Database.instance != null)
