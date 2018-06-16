@@ -1,4 +1,12 @@
 box: node
+
+build:
+  steps:
+    - script:
+        name: Build and Test
+        code: |
+          echo "Look at me, building and testing..."
+
 staging:
   steps:
     - add-to-known_hosts:

@@ -1,5 +1,6 @@
 package com.ace.alfox;
 
+import com.ace.alfox.lib.ActionFactory;
 import com.ace.alfox.lib.Database;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AlfoxApplication implements WebMvcConfigurer {
 
 	public AlfoxApplication() throws ClassNotFoundException {
-		Database.findActions("com.ace.alfox.game");
+		ActionFactory.findActions("com.ace.alfox.game");
 	}
 
 	public void addCorsMappings(CorsRegistry registry) {
