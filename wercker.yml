@@ -6,6 +6,7 @@ build:
     - script:
         name: Build and Test
         code: |
+          chmod +x ./gradlew
           ./gradlew test
 
 staging:
