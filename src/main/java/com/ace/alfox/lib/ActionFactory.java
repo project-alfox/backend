@@ -1,6 +1,7 @@
 package com.ace.alfox.lib;
 
 import com.ace.alfox.game.interfaces.IAction;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -56,9 +57,8 @@ public class ActionFactory {
     public ActionFactory named(String command) {
         IAction _action = null;
         try {
-            _action = actions.get(command).getDeclaredConstructor().newInstance();
-            beanFactory.autowireBean(_action);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            _action = beanFactory.createBean(actions.get(command));
+        } catch (BeansException e) {
             e.printStackTrace();
         }
         return new ActionFactory(_action, null);

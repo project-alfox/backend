@@ -21,8 +21,6 @@ public class MoveAction implements IAction {
     }};
 
     Database db;
-
-    public MoveAction() {}
     @Autowired public MoveAction(Database db) {
         this.db = db;
     }
