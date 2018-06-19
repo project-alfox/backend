@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,17 +23,13 @@ public class ActionFactory {
      * Mappings of /perform/{action} to an IAction. Populated in the AlfoxApplication class.
      */
     private Map<String, Class<IAction>> actions = new HashMap<>();
-
-    @Autowired
     private AutowireCapableBeanFactory beanFactory;
 
-    @Autowired
-    public ActionFactory(@Value("com.ace.alfox.game") String namespace) {
-        if(namespace == null) { return; }
-
+    @PostConstruct
+    public void populateActionCache() {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(true);
         scanner.addIncludeFilter(new AnnotationTypeFilter(PlayerAction.class));
-        for (BeanDefinition bd : scanner.findCandidateComponents(namespace)) {
+        for (BeanDefinition bd : scanner.findCandidateComponents("com.ace.alfox.game")) {
             // use the PlayerAction annotation to get the aliased endpoint name
             String alias = null;
             try {
@@ -43,6 +40,11 @@ public class ActionFactory {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Autowired
+    public ActionFactory(AutowireCapableBeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
     }
 
     public ActionFactory(IAction a, Map<String, Object> p) {
