@@ -1,5 +1,7 @@
 package com.ace.alfox;
 
+import com.ace.alfox.game.MoveAction;
+import com.ace.alfox.game.interfaces.IAction;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

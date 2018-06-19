@@ -3,14 +3,13 @@ package com.ace.alfox.game;
 import com.ace.alfox.game.interfaces.IAction;
 import com.ace.alfox.game.models.Location;
 import com.ace.alfox.game.models.Player;
-import com.ace.alfox.lib.ActionResult;
-import com.ace.alfox.lib.LocationFactory;
-import com.ace.alfox.lib.PlayerAction;
-import com.ace.alfox.lib.Vector2;
+import com.ace.alfox.lib.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.dizitart.no2.objects.filters.ObjectFilters.*;
 
 @PlayerAction(alias="move")
 public class MoveAction implements IAction {
@@ -21,8 +20,12 @@ public class MoveAction implements IAction {
         put("south", new Vector2( 0,-1));
     }};
 
-    @Autowired
-    private LocationFactory locationFactory;
+    Database db;
+
+    public MoveAction() {}
+    @Autowired public MoveAction(Database db) {
+        this.db = db;
+    }
 
     @Override
     public ActionResult applyAction(Player player, Map<String, Object> params) {
@@ -39,7 +42,10 @@ public class MoveAction implements IAction {
         player.location = player.location.add(directions.get(direction));
         result.log("traveled " + direction);
 
-        Location location = locationFactory.fetch(player.location);
+        Location location = db.locations.find(eq("coordinates", player.location)).firstOrDefault();
+        if(location == null) {
+            location = new Location();
+        }
         result.log("You see, " + location.title)
               .log(location.description);
 

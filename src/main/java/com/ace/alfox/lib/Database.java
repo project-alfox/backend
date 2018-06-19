@@ -1,42 +1,34 @@
 package com.ace.alfox.lib;
 
-import org.iq80.leveldb.DB;
-import org.iq80.leveldb.Options;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
+import com.ace.alfox.game.models.Location;
+import com.ace.alfox.game.models.Player;
+import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.NitriteBuilder;
+import org.dizitart.no2.objects.ObjectRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
-
-import static org.fusesource.leveldbjni.JniDBFactory.factory;
+import javax.annotation.PreDestroy;
 
 @Service
 public class Database {
-    private static DB instance;
+    final Nitrite db;
 
-    public Database() {}
+    public ObjectRepository<Player> players;
+    public ObjectRepository<Location> locations;
 
-    public DB get() throws IOException {
-        return get("Game");
+    public Database(@Value(value = "game") String name) {
+        NitriteBuilder _db = Nitrite.builder();
+        if(!name.equals("memory")) {
+            _db = _db.filePath(name + ".db");
+        }
+        db = _db.openOrCreate();
+        players = db.getRepository(Player.class);
+        locations = db.getRepository(Location.class);
     }
 
-    public synchronized DB get(String name) throws IOException {
-        if(Database.instance != null)
-            return Database.instance;
-
-        Options options = new Options();
-        options.createIfMissing(true);
-        DB db = factory.open(new File(name), options);
-        Database.instance = db;
-
-        return db;
-    }
-
-    //TODO add this to global teardown hook
-    public void destroy() throws IOException {
-        if(Database.instance != null)
-            Database.instance.close();
+    @PreDestroy
+    public void destroy() {
+        db.close();
     }
 }

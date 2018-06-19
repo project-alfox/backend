@@ -3,9 +3,12 @@ package com.ace.alfox.game.models;
 import com.ace.alfox.lib.ActionFactory;
 import com.ace.alfox.lib.ActionResult;
 import com.ace.alfox.lib.Vector2;
+import org.dizitart.no2.NitriteId;
+import org.dizitart.no2.objects.Id;
 
 public class Player {
-    public String id = "1234-1234-1234-1234";
+    @Id
+    public NitriteId id;
     public String name = "Jimmy Fred";
     public int hp = 100;
     public Vector2 location = new Vector2(0,0);

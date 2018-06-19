@@ -4,12 +4,13 @@ import com.ace.alfox.game.MoveAction;
 import com.ace.alfox.game.interfaces.IAction;
 import com.ace.alfox.game.models.Player;
 import com.ace.alfox.lib.ActionResult;
-import com.ace.alfox.lib.LocationFactory;
+import com.ace.alfox.lib.Database;
 import com.ace.alfox.lib.Vector2;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -23,14 +24,17 @@ import static org.junit.Assert.assertFalse;
 public class MoveActionTests {
     Player player;
     IAction move;
+    static Database db;
 
-    @Autowired
-    LocationFactory lf;
+    @BeforeClass
+    public static void createConnection() {
+        db = new Database("memory");
+    }
 
     @Before
     public void setUp() {
         player = new Player();
-        move = new MoveAction(lf);
+        move = new MoveAction(db);
     }
 
     @Test
@@ -52,5 +56,10 @@ public class MoveActionTests {
 
         assertFalse(result.ok);
         assertArrayEquals(result.player.location.toArray(), new Vector2(0,0).toArray());
+    }
+
+    @AfterClass
+    public static void closeUpShop() {
+        db.destroy();
     }
 }
