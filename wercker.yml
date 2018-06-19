@@ -1,11 +1,12 @@
 box: node
 
 build:
+  box: openjdk:10-jdk-slim
   steps:
     - script:
         name: Build and Test
         code: |
-          echo "Look at me, building and testing..."
+          ./gradlew test
 
 staging:
   steps:
