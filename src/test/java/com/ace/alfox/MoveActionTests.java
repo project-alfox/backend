@@ -22,13 +22,13 @@ import static org.junit.Assert.assertFalse;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MoveActionTests {
-    Player player;
-    IAction move;
-    static Database db;
+    private Player player;
+    private IAction move;
+    private static Database db;
 
     @BeforeClass
     public static void createConnection() {
-        db = new Database("memory");
+        db = new Database(Database.USE_IN_MEMORY);
     }
 
     @Before
@@ -38,7 +38,7 @@ public class MoveActionTests {
     }
 
     @Test
-    public void Move() {
+    public void moveNorth_yLocationShouldChange() {
         ActionResult result = move.applyAction(player,
                 new HashMap<String, Object>() {{
                     put("direction", "north");
@@ -48,7 +48,7 @@ public class MoveActionTests {
     }
 
     @Test
-    public void InvalidMove() {
+    public void invalidMoveDirection_shouldNotMove() {
         ActionResult result = move.applyAction(player,
                 new HashMap<String, Object>() {{
                     put("direction", "westward");
