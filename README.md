@@ -3,6 +3,8 @@
 - Install the [JDK10](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html)
 - and run `./gradlew runJar`
 
+To setup the project in IntelliJ, run `./gradlew idea`. This will only need to be run once ever.
+
 #### Using
 
 - To serve the frontend, set output directory to `src/main/resources/static`
