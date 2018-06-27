@@ -9,9 +9,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AlfoxApplicationTests {
 
-	@Test
-	public void GameTest() {
-
-	}
-
+  @Test
+  public void GameTest() {}
 }

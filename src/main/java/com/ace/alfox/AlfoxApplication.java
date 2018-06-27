@@ -12,13 +12,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableAutoConfiguration
 public class AlfoxApplication implements WebMvcConfigurer {
 
-	public void addCorsMappings(CorsRegistry registry) {
-	    registry.addMapping("/**")
-				.allowedOrigins("http://localhost:3000", "http://alfox.verworn.ca")
-				.allowCredentials(true);
-	}
+  public void addCorsMappings(CorsRegistry registry) {
+    registry
+        .addMapping("/**")
+        .allowedOrigins("http://localhost:3000", "http://alfox.verworn.ca")
+        .allowCredentials(true);
+  }
 
-	public static void main(String[] args) {
-		SpringApplication.run(AlfoxApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(AlfoxApplication.class, args);
+  }
 }

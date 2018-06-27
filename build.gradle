@@ -7,6 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("com.diffplug.spotless:spotless-plugin-gradle:3.13.0")
 	}
 }
 
@@ -14,6 +15,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.diffplug.gradle.spotless'
 
 group = 'com.ace.alfox'
 version = '0.0.1-SNAPSHOT'
@@ -28,4 +30,10 @@ dependencies {
 	compile('org.dizitart:nitrite:3.0.0')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+spotless {
+	java {
+		googleJavaFormat()
+	}
 }
