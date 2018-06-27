@@ -7,7 +7,7 @@ build:
         name: Build and Test
         code: |
           chmod +x ./gradlew
-          ./gradlew test
+          ./gradlew build
 
 staging:
   steps:
