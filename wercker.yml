@@ -1,4 +1,14 @@
 box: node
+
+build:
+  box: openjdk:10-jdk-slim
+  steps:
+    - script:
+        name: Build and Test
+        code: |
+          chmod +x ./gradlew
+          ./gradlew test
+
 staging:
   steps:
     - add-to-known_hosts:

@@ -1,17 +1,21 @@
 package com.ace.alfox.game.models;
 
-import com.ace.alfox.lib.ActionFactory;
+import com.ace.alfox.game.interfaces.IAction;
 import com.ace.alfox.lib.ActionResult;
 import com.ace.alfox.lib.Vector2;
+import org.dizitart.no2.NitriteId;
+import org.dizitart.no2.objects.Id;
+
+import java.util.Map;
 
 public class Player {
-    public String id = "1234-1234-1234-1234";
+    @Id
+    public NitriteId id;
     public String name = "Jimmy Fred";
     public int hp = 100;
     public Vector2 location = new Vector2(0,0);
 
-    public ActionResult applyAction(ActionFactory doSomething) {
-        // TODO: clone player
-        return doSomething.action.applyAction(this, doSomething.params);
+    public ActionResult applyAction (IAction doSomething, Map<String, Object> params) {
+        return doSomething.applyAction(this, params);
     }
 }

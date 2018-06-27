@@ -1,56 +1,51 @@
 package com.ace.alfox.lib;
 
-import com.ace.alfox.game.interfaces.IAction;
-import org.iq80.leveldb.DB;
-import org.iq80.leveldb.Options;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
+import com.ace.alfox.game.models.Location;
+import com.ace.alfox.game.models.Player;
+import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.NitriteBuilder;
+import org.dizitart.no2.objects.ObjectRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import static org.fusesource.leveldbjni.JniDBFactory.*;
+import javax.annotation.PreDestroy;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 
+@Service
 public class Database {
+    public static final String USE_IN_MEMORY = "DON'T PERSIST TO DISK";
+    final Nitrite db;
+
+    public ObjectRepository<Player> players;
+    public ObjectRepository<Location> locations;
+
     /**
-     * Mappings of /perform/{action} to an IAction. Populated in the AlfoxApplication class.
+     * Open the given database or create it if it doesn't exist. Only one instance can have a database open at a time.
+     * @param name The file path to the database, if the passed string is equal to {Database.USE_IN_MEMORY} the database
+     *             is initialized in MemoryOnly mode and not persisted to disk. Useful for tests.
      */
-    public static Map<String, Class<IAction>> actions = new HashMap<>();
-    private static DB instance;
-
-    private Database() {}
-
-    public static void findActions(String namespace) throws ClassNotFoundException {
-        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(true);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(PlayerAction.class));
-        for (BeanDefinition bd : scanner.findCandidateComponents(namespace)) {
-            // use my annotation to get simple name
-            String alias = Class.forName(bd.getBeanClassName()).getAnnotation(PlayerAction.class).alias();
-            System.out.println(alias);
-            Class cl = Class.forName(bd.getBeanClassName());
-            Database.actions.put(alias, cl);
+    public Database(@Value(value = "game") String name) {
+        NitriteBuilder _db = Nitrite.builder();
+        if(!name.equals(USE_IN_MEMORY)) {
+            _db = _db.filePath(name + ".db");
         }
+        db = _db.openOrCreate();
+        players = db.getRepository(Player.class);
+        locations = db.getRepository(Location.class);
     }
 
-    public synchronized static DB get() throws IOException {
-        if(Database.instance != null)
-            return Database.instance;
-
-        Options options = new Options();
-        options.createIfMissing(true);
-        DB db = factory.open(new File("Game"), options);
-        Database.instance = db;
-
-        return db;
+    public Location findLocation(Vector2 coordinates) {
+        Location result = locations.find(eq("coordinates", coordinates)).firstOrDefault();
+        if(result == null) {
+            // HACK I should look up the zone this location is in and provide the default
+            result = new Location();
+        }
+        return result;
     }
 
-    //TODO add this to global teardown hook
-    public void destroy() throws IOException {
-        if(Database.instance != null)
-            Database.instance.close();
+    @PreDestroy
+    public void destroy() {
+        db.close();
     }
 }

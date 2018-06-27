@@ -1,10 +1,8 @@
 package com.ace.alfox.lib;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.util.Vector;
 
-public class Vector2 extends Vector<Integer> {
+public class Vector2 extends Vector<Integer> implements Comparable<Vector2>{
     public Vector2() {
         super();
     }
@@ -27,5 +25,10 @@ public class Vector2 extends Vector<Integer> {
 
     public int y() {
         return this.get(1);
+    }
+
+    @Override
+    public int compareTo(Vector2 o) {
+        return Math.abs(o.x() - x()) + Math.abs((o.y() - y()));
     }
 }
