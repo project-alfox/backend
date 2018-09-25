@@ -7,6 +7,7 @@ import java.util.List;
 public class ActionResult {
   public List<String> message = new LinkedList<>();
   public Player player = null;
+  public Battle activeBattle = null;
   public boolean ok = true;
 
   public ActionResult(Player player) {
