@@ -2,6 +2,7 @@ package com.ace.alfox.lib.data;
 
 import com.ace.alfox.game.models.Location;
 import com.ace.alfox.game.models.Player;
+import com.ace.alfox.lib.Battle;
 import javax.annotation.PreDestroy;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.NitriteBuilder;
@@ -15,6 +16,7 @@ public class Database {
 
   public final PlayerRepository players;
   public final LocationRepository locations;
+  public final BattleRepository battles;
 
   /**
    * Open the given database or create it if it doesn't exist. Only one instance can have a database
@@ -32,6 +34,7 @@ public class Database {
     db = _db.openOrCreate();
     players = new PlayerRepository(db.getRepository(Player.class));
     locations = new LocationRepository(db.getRepository(Location.class));
+    battles = new BattleRepository(db.getRepository(Battle.class));
   }
 
   @PreDestroy
