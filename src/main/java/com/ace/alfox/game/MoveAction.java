@@ -43,7 +43,7 @@ public class MoveAction implements IAction {
      * method would just check this. Might make the most sense for PlayerState to be PRIVATE to the
      * player, and not interacted with directly by anything but the Player class.
      */
-    if (player.hp == 0) {
+    if (player.hp <= 0) {
       return result.notOk().log("You're dead.");
     }
 

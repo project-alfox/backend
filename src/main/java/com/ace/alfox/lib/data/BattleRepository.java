@@ -27,7 +27,6 @@ public class BattleRepository extends ObjectRepositoryFacade<Battle> {
   /** * Create a new Battle. */
   public Battle newBattle() {
     Long id = random.nextLong();
-
     Battle battle = new Battle(id, getRandomName());
     super.insert(battle);
     return battle;
