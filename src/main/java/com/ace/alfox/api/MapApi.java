@@ -14,7 +14,7 @@ public class MapApi {
 
   @Autowired private Database playerDatabase;
 
-  @GetMapping("/api/getMap")
+  @GetMapping("/api/map")
   public ResponseEntity getMap(HttpServletRequest request) {
     Player player = Player.findPlayer(playerDatabase, request);
     if (player == null) {
