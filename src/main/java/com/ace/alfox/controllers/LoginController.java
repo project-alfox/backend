@@ -2,14 +2,12 @@ package com.ace.alfox.controllers;
 
 import com.ace.alfox.game.models.Player;
 import com.ace.alfox.lib.data.Database;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoginController {
@@ -28,24 +26,47 @@ public class LoginController {
     }
   }
 
+  /**
+   * The login takes a mapped request body of fields mapped to the strings username and password
+   * representing a login attempt.
+   *
+   * @param loginRequest
+   * @param request
+   * @return
+   */
   @PostMapping("/login")
-  public ResponseEntity login(@RequestParam String user, HttpServletRequest request) {
+  public ResponseEntity login(
+      @RequestBody Map<String, Object> loginRequest, HttpServletRequest request) {
     HttpSession session = request.getSession(true);
-    Player p = db.players.find(user);
+    Player p =
+        db.players.authenticate(
+            loginRequest.get("username").toString(), loginRequest.get("password").toString());
     if (p == null) {
-      /* this will never happen until Adam rewrites `PlayerRepository.find` to <u>not</u> auto-create test accounts. */
       return ResponseEntity.notFound().build();
     }
-
-    // TODO: Lookup user and verify credentials
-
     session.setAttribute("pid", p.id);
     return ResponseEntity.ok().build();
   }
 
+  /**
+   * Signup takes a similar request to login, checks to see if the username is unique and if it is
+   * signs up, then logs the user in.
+   *
+   * @param signupRequest
+   * @param request
+   * @return
+   */
   @PostMapping("/signup")
-  public ResponseEntity signup(HttpServletRequest request) {
-    // TODO implement user signup
+  public ResponseEntity signup(
+      @RequestBody Map<String, Object> signupRequest, HttpServletRequest request) {
+    Player p = db.players.find(signupRequest.get("username").toString());
+    if (p == null) {
+      db.players.signUp(
+          signupRequest.get("username").toString(), signupRequest.get("password").toString());
+      login(signupRequest, request);
+    } else {
+      return ResponseEntity.badRequest().build();
+    }
     return ResponseEntity.noContent().build();
   }
 }
