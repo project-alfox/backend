@@ -3,11 +3,16 @@ package com.ace.alfox.game.models;
 import com.ace.alfox.game.interfaces.IAction;
 import com.ace.alfox.lib.ActionResult;
 import com.ace.alfox.lib.Vector2;
+<<<<<<< Updated upstream
 import com.ace.alfox.lib.data.Database;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+=======
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Map;
+>>>>>>> Stashed changes
 import org.dizitart.no2.objects.Id;
 
 public class Player {
@@ -29,6 +34,17 @@ public class Player {
   public Vector2 location = new Vector2(0, 0);
   public PlayerState playerState = PlayerState.FREE;
   public Long activeBattleId = null;
+<<<<<<< Updated upstream
+=======
+
+  @JsonIgnore
+  public byte[] password =
+      new byte
+          [0]; // Neither of these should be in player, they are user attributes, but no user class
+  // exists as of time of addition
+
+  @JsonIgnore public byte[] salt = new byte[0];
+>>>>>>> Stashed changes
 
   @JsonIgnore
   public byte[] password =

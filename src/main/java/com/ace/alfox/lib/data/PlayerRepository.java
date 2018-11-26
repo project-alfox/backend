@@ -3,6 +3,8 @@ package com.ace.alfox.lib.data;
 import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 
 import com.ace.alfox.game.models.Player;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,13 +22,13 @@ public class PlayerRepository extends ObjectRepositoryFacade<Player> {
   /**
    * * Search for a player going by the given username
    *
-   * @param username target username, the first 8 bytes are used as the player id, this is a hack
-   *     until Adam makes a real account system.
+   * @param username target username
    * @return The found Player or null if not found
    */
   public Player find(String username) {
     return super.find(eq("name", username)).firstOrDefault();
   }
+
   /**
    * Search for a player based on their PlayerId, their unique identifier.
    *
