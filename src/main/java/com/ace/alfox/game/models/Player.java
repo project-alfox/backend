@@ -52,6 +52,6 @@ public class Player {
 
   public enum PlayerState {
     FREE,
-    IN_BATTLE;
+    IN_BATTLE
   }
 }
