@@ -11,6 +11,16 @@ buildscript {
     }
 }
 
+task webpack(type: Exec) {
+    inputs.dir("$projectDir/frontend").withPathSensitivity(PathSensitivity.RELATIVE)
+    outputs.dir("$buildDir/resources/main/static")
+//    outputs.dir("$projectDir/src/main/resources/static")
+    outputs.cacheIf { true }
+
+//    parcel build -d ../src/main/resources/static ./public/index.html
+    commandLine "$projectDir/frontend/node_modules/.bin/parcel.cmd", "build", "-d", "$buildDir/resources/main/static", "$projectDir/frontend/public/index.html"
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'

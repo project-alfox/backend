@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 public class AlfoxApplication implements WebMvcConfigurer {
 
   public void addCorsMappings(CorsRegistry registry) {
